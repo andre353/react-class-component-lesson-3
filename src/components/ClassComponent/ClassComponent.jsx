@@ -9,6 +9,8 @@ export class ClassComponent extends React.Component {
     };
   }
 
+  // доступа к state нет, так как функция handleSubmit НЕ ПРИВЯЗАНА 
+  // К РЕАКТ КОМПОНЕНТУ И У НЕЕ НЕТ КОНТЕКСТА
   handleSubmit(e) {
     e.preventDefault();
     console.log(this.state.number);
