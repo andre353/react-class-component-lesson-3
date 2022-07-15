@@ -7,15 +7,11 @@ export class ClassComponent extends React.Component {
     this.state = {
       number: 5,
     };
-
-    // 1е решение
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   // доступа к state нет, так как функция handleSubmit НЕ ПРИВЯЗАНА
   // К РЕАКТ КОМПОНЕНТУ И У НЕЕ НЕТ КОНТЕКСТА
   handleSubmit(e) {
-    e.preventDefault();
     console.log(this.state.number);
   }
 
@@ -23,7 +19,10 @@ export class ClassComponent extends React.Component {
     return (
       <div className={style.game}>
         <p className={style.result}>{this.state.number}</p>
-        <form className={style.form} onSubmit={this.handleSubmit}>
+        <form className={style.form} onSubmit={(e) => {
+          e.preventDefault();
+          this.handleSubmit(e);
+        }}>
           <label className={style.label} htmlFor='user_number'>
             Угадай число
           </label>
