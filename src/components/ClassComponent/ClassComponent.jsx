@@ -17,8 +17,15 @@ export class ClassComponent extends React.Component {
       Math.floor(Math.random() * this.props.max - this.props.min) +
       this.props.min,
       count: 0,
+      showMore: false,
     };
   }
+
+  resetInput = () => {
+    this.setState(state => ({
+      userNumber: '',
+    }));
+  };
 
   // доступа к state нет, так как функция handleSubmit НЕ ПРИВЯЗАНА
   // К РЕАКТ КОМПОНЕНТУ И У НЕЕ НЕТ КОНТЕКСТА, но если ее сделать стрелочной
@@ -39,28 +46,48 @@ export class ClassComponent extends React.Component {
         };
       }
 
-      if (!prevstate.userNumber > prevstate.randomNumber) {
+      if (prevstate.userNumber > prevstate.randomNumber) {
         return {
           result: `${prevstate.userNumber} больше загаданного`,
         };
       }
 
-      if (!prevstate.userNumber < prevstate.randomNumber) {
+      if (prevstate.userNumber < prevstate.randomNumber) {
         return {
           result: `${prevstate.userNumber} меньше загаданного`,
         };
       }
 
-      return {
-        result: `Вы угадали загаданное число ${prevstate.userNumber}. 
-        Использовано ${prevstate.count} попыток.`,
-      };
+      if (+prevstate.userNumber === prevstate.randomNumber) {
+        return {
+          result: `Вы угадали загаданное число ${prevstate.userNumber}. 
+          Использовано ${prevstate.count} попытки.`,
+          showMore: true,
+        };
+      }
     });
+
+    this.resetInput();
   };
 
   handleChange = (e) => {
     this.setState((prevstate, props) => ({
       userNumber: e.target.value,
+      result: `Вы ввели ${e.target.value}`,
+    }), () => {// через колбэк получаем новейшее состояние значений state
+      console.log(this.state);
+    });
+  };
+
+  handleClick = () => {
+    this.setState((prevstate, props) => ({
+      userNumber: '',
+      result: `Введите число`,
+      randomNumber:
+      Math.floor(Math.random() * this.props.max - this.props.min) +
+      this.props.min,
+      count: 0,
+      showMore: false,
     }), () => {// через колбэк получаем новейшее состояние значений state
       console.log(this.state);
     });
@@ -71,7 +98,8 @@ export class ClassComponent extends React.Component {
       <div className={style.game}>
         <p className={style.result}>{this.state.result}</p>
 
-        <form className={style.form} onSubmit={this.handleSubmit}>
+        {!this.state.showMore &&
+        (<form className={style.form} onSubmit={this.handleSubmit}>
 
           <label className={style.label} htmlFor="user_number">
             Угадай число
@@ -87,7 +115,11 @@ export class ClassComponent extends React.Component {
 
           <button className={style.btn}>Угадать</button>
 
-        </form>
+        </form>)}
+
+        {this.state.showMore &&
+        (<button className={`${style.btn} ${style.btnMore}`}
+          onClick={this.handleClick}>Сыграть еще</button>)}
 
       </div>
     );
