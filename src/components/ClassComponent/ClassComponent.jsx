@@ -7,9 +7,12 @@ export class ClassComponent extends React.Component {
     this.state = {
       number: 5,
     };
+
+    // 1е решение
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // доступа к state нет, так как функция handleSubmit НЕ ПРИВЯЗАНА 
+  // доступа к state нет, так как функция handleSubmit НЕ ПРИВЯЗАНА
   // К РЕАКТ КОМПОНЕНТУ И У НЕЕ НЕТ КОНТЕКСТА
   handleSubmit(e) {
     e.preventDefault();
