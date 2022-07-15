@@ -6,6 +6,7 @@ export class ClassComponent extends React.Component {
     super(props);
     this.state = {
       number: 5,
+      userNumber: '',
     };
   }
 
@@ -19,15 +20,28 @@ export class ClassComponent extends React.Component {
     console.log(this.state.number);
   };
 
+  handleChange = (e) => {
+    this.setState({
+      userNumber: e.target.value,
+    });
+    console.log(this.state);
+  };
+
   render() {
     return (
       <div className={style.game}>
         <p className={style.result}>{this.state.number}</p>
         <form className={style.form} onSubmit={this.handleSubmit}>
-          <label className={style.label} htmlFor='user_number'>
+          <label className={style.label} htmlFor="user_number">
             Угадай число
           </label>
-          <input className={style.input} type='number' id='user_number' />
+          <input
+            className={style.input}
+            onChange={this.handleChange}
+            value={this.state.userNumber}
+            type="number"
+            id="user_number"
+          />
           <button className={style.btn}>Угадать</button>
         </form>
       </div>
