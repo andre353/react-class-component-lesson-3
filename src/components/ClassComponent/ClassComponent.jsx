@@ -13,7 +13,10 @@ export class ClassComponent extends React.Component {
     this.state = {
       result: 'Результат',
       userNumber: '',
-      randomNumber: '',
+      randomNumber:
+      Math.floor(Math.random() * this.props.max - this.props.min) +
+      this.props.min,
+      count: 0,
     };
   }
 
@@ -24,6 +27,11 @@ export class ClassComponent extends React.Component {
   // то есть с функцией, внутри которой определена стрелочная функция.
   handleSubmit = (e) => {
     e.preventDefault();
+
+    this.setState(state => ({
+      count: state.count + 1,
+    }));
+
     this.setState(prevstate => {
       if (!prevstate.userNumber) {
         return {
@@ -44,7 +52,8 @@ export class ClassComponent extends React.Component {
       }
 
       return {
-        result: `Вы угадали загаданное число ${prevstate.userNumber}`,
+        result: `Вы угадали загаданное число ${prevstate.userNumber}. 
+        Использовано ${prevstate.count} попыток.`,
       };
     });
   };
@@ -52,9 +61,6 @@ export class ClassComponent extends React.Component {
   handleChange = (e) => {
     this.setState((prevstate, props) => ({
       userNumber: e.target.value,
-      randomNumber:
-      Math.floor(Math.random() * this.props.max - this.props.min) +
-      this.props.min,
     }), () => {// через колбэк получаем новейшее состояние значений state
       console.log(this.state);
     });
