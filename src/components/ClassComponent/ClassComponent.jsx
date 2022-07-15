@@ -21,12 +21,12 @@ export class ClassComponent extends React.Component {
   };
 
   handleChange = (e) => {
-    this.setState(() => (
-      {
+    this.setState((state, props) => {
+      console.log(state, props);
+      return {
         userNumber: e.target.value,
-      }
-    ));
-    console.log(this.state);
+      };
+    });
   };
 
   render() {
